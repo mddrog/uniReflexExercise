@@ -125,7 +125,8 @@ public:
 		//show red LEDS
 		//show green LEDS
 		//show blue LEDS
-
+		reflex::msp430x::Port8()->DIR = 0xff;
+		reflex::msp430x::Port8()->OUT = 0x0;
 	}
 
 
