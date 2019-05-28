@@ -1,0 +1,9 @@
+# compiled files
+*.o
+*.elf
+*.hex
+*.rpo
+
+# vim temporary files
+*.swp
+*.swo
