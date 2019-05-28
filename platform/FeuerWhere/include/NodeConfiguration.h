@@ -122,11 +122,19 @@ public:
 		// INSERT HERE YOUR CODE
 		//////////////////////////////////////
 
-		//show red LEDS
-		//show green LEDS
-		//show blue LEDS
 		reflex::msp430x::Port8()->DIR = 0xff;
-		reflex::msp430x::Port8()->OUT = 0x0;
+
+		//show red LEDS
+		reflex::msp430x::Port8()->OUT = ~(0x02|0x04|0x20|0x40);
+
+		//show green LEDS
+//		reflex::msp430x::Port8()->OUT = ~(0x08|0x10); 
+
+		//show blue LEDS
+//		reflex::msp430x::Port8()->OUT = ~(0x01|0x80); 
+
+//		reflex::msp430x::Port8()->OUT = 0x0; // alle an
+		
 	}
 
 
