@@ -124,6 +124,8 @@ public:
 
 		reflex::msp430x::Port8()->DIR = 0xff;
 
+
+		uint8* baseAddress = (uint8*) 0x260;
 		//show red LEDS
 		reflex::msp430x::Port8()->OUT = ~(0x02|0x04|0x20|0x40);
 

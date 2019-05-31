@@ -1191,3 +1191,5 @@ main.o: ../../../src/main.cc \
  ../../../../../system/include/reflex/driverConfiguration/ConfigurationObject.h \
  ../../../../../system/include/reflex/driverConfiguration/WDT_AConfiguration.h \
  ../../../../../system/include/reflex/driverConfiguration/ConfigurationObject.h
+LED.o: ../../../src/LED.cc ../../../include/LED.h \
+ ../../../../../controller/MSP430xF5/include/reflex/types.h
