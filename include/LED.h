@@ -23,8 +23,8 @@ class LED{
 
 	private:
 	
-	uint8* const DIR;
-	uint8* const OUT;
+	volatile uint8* const DIR;
+	volatile uint8* const OUT;
 	void turnOn(uint8 number, bool only = false);
 }
 ;
