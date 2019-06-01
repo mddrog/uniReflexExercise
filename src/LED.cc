@@ -4,7 +4,7 @@ void LED::turnOn(uint8 number, bool only){
 	if(only == true){
 		*OUT = number;
 	}else{
-		*OUT |= number;
+		*OUT &= number;
 	}
 }
 
@@ -23,7 +23,7 @@ void LED::turnOnColor(Color color, bool only){
 	turnOn(number, only);	
 }
 
-void LED::turnOnNumber(uint8 number, bool only){
+void LED::turnOnLED(uint8 number, bool only){
 
 	if(number > 8 || number <=0){
 		return;
@@ -33,7 +33,7 @@ void LED::turnOnNumber(uint8 number, bool only){
 }
 
 
-void LED::turnOffNumber(uint8 number){}
+void LED::turnOffLED(uint8 number){}
 
 void LED::displayNumber(uint8 number){
 	

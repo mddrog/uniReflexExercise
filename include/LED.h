@@ -9,8 +9,8 @@ class LED{
 
 	enum Color {red, green, blue};
 
-	void turnOnNumber(uint8 number, bool only = false);
-	void turnOffNumber(uint8 number);
+	void turnOnLED(uint8 number, bool only = false);
+	void turnOffLED(uint8 number);
 
 	void displayNumber(uint8 number);
 	
