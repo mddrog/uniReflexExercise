@@ -2,25 +2,39 @@
 
 void LED::turnOn(uint8 number, bool only){
 	if(only == true){
-		*OUT = number;
+		*OUT = ~number;
 	}else{
-		*OUT &= number;
+		*OUT &= ~number;
 	}
 }
 
-void LED::turnOnColor(Color color, bool only){
+void LED::turnOff(uint8 number){
+	*OUT |= number;
+}
 
+void LED::toggleAll(){
+	*OUT = ~(*OUT);
+}
+
+void LED::turnOnColor(Color color, bool only){
+	turnOn(getColorLEDBits(color), only);	
+}
+
+uint8 LED::getColorLEDBits(Color color){
+	
 	uint8 number = 0;
 	switch(color){
 		case red: 
-			number = ~(0x02|0x04|0x20|0x40);
+			number = redLEDBits;
+			break;
 		case green:
-			number = ~(0x08|0x10);
+			number = greenLEDBits;
+			break;
 		case blue:
-			number = ~(0x01|0x80);
+			number = blueLEDBits;
+			break;
 	}
-	
-	turnOn(number, only);	
+	return number;
 }
 
 void LED::turnOnLED(uint8 number, bool only){
@@ -29,11 +43,18 @@ void LED::turnOnLED(uint8 number, bool only){
 		return;
 	}
 
-	turnOn(~(1<<(number-1)), only);
+	turnOn((1<<(number-1)), only);
 }
 
 
-void LED::turnOffLED(uint8 number){}
+void LED::turnOffLED(uint8 number){
+
+	if(number > 8 || number <=0){
+		return;
+	}
+
+	turnOff((1<<(number-1)));
+}
 
 void LED::displayNumber(uint8 number){
 	
@@ -41,8 +62,30 @@ void LED::displayNumber(uint8 number){
 		return;
 	}
 	
-	turnOn(~number, true);
+	turnOn(number, true);
 }
 	
-void LED::turnOffColor(Color color){}
+void LED::turnOffColor(Color color){
+	turnOn(getColorLEDBits(color));
+}
 
+
+void LED::toggleLED(uint8 number){
+	toggle((1<<(number-1)));
+}
+
+void LED::toggleColor(Color color){
+	uint8 colorLEDBits = getColorLEDBits(color);
+	toggle(colorLEDBits);
+}
+
+void LED::toggle(uint8 number){
+	*OUT = (*OUT)^number;
+}
+
+void LED::turnOffAll(){
+	turnOff(0xFF);
+}
+void LED::turnOnAll(){
+	turnOn(0xFF);
+}
