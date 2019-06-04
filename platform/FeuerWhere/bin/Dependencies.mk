@@ -726,6 +726,7 @@ Pool.o: ../../../../../lib/src/reflex/memory/Pool.cc \
  ../../../../../system/include/reflex/powerManagement/PowerGroups.h \
  ../../../../../lib/include/reflex/memory/memset.h \
  ../../../../../lib/include/reflex/timer/VirtualizedTimer.h \
+ ../../../include/LED.h \
  ../../../../../lib/include/reflex/memory/SizedPool.h \
  ../../../../../controller/MSP430xF5/include/reflex/System.h \
  ../../../../../controller/MSP430xF5/include/reflex/init/SystemInit.h \
@@ -806,6 +807,7 @@ Buffer.o: ../../../../../lib/src/reflex/memory/Buffer.cc \
  ../../../../../system/include/reflex/powerManagement/PowerGroups.h \
  ../../../../../lib/include/reflex/memory/memset.h \
  ../../../../../lib/include/reflex/timer/VirtualizedTimer.h \
+ ../../../include/LED.h \
  ../../../../../lib/include/reflex/memory/PoolManager.h \
  ../../../../../lib/include/reflex/memory/SizedPool.h \
  ../../../../../controller/MSP430xF5/include/reflex/System.h \
@@ -918,6 +920,7 @@ NodeUtils.o: ../../../../../lib/src/reflex/utils/NodeUtils.cc \
  ../../../../../controller/MSP430xF5/include/reflex/timer/Timer1_A3.h \
  ../../../../../controller/MSP430xF5/include/reflex/timer/Registers.h \
  ../../../../../lib/include/reflex/timer/VirtualizedTimer.h \
+ ../../../include/LED.h \
  ../../../../../lib/include/reflex/memory/PoolManager.h \
  ../../../../../lib/include/reflex/memory/SizedPool.h \
  ../../../../../controller/MSP430xF5/include/reflex/System.h \
@@ -1086,6 +1089,7 @@ Application.o: ../../../src/Application.cc ../../../include/Application.h \
  ../../../../../system/include/reflex/powerManagement/PowerGroups.h \
  ../../../../../lib/include/reflex/memory/memset.h \
  ../../../../../lib/include/reflex/timer/VirtualizedTimer.h \
+ ../../../include/LED.h \
  ../../../platform/FeuerWhere/include/NodeConfiguration.h \
  ../../../../../lib/include/reflex/memory/PoolManager.h \
  ../../../../../lib/include/reflex/memory/SizedPool.h \
@@ -1168,6 +1172,7 @@ main.o: ../../../src/main.cc \
  ../../../../../system/include/reflex/powerManagement/PowerGroups.h \
  ../../../../../lib/include/reflex/memory/memset.h \
  ../../../../../lib/include/reflex/timer/VirtualizedTimer.h \
+ ../../../include/LED.h \
  ../../../../../lib/include/reflex/memory/PoolManager.h \
  ../../../../../lib/include/reflex/memory/SizedPool.h \
  ../../../../../controller/MSP430xF5/include/reflex/System.h \

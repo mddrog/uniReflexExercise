@@ -118,25 +118,7 @@ public:
 		timer.setGroups(DEFAULT); // put system timer in default group
 		powerManager.enableGroup(DEFAULT); // this enables all registered entities in DEFAULT group (starts system timer)
 
-		//////////////////////////////////////
-		// INSERT HERE YOUR CODE
-		//////////////////////////////////////
 
-		reflex::msp430x::Port8()->DIR = 0xff;
-
-
-		uint8* baseAddress = (uint8*) 0x260;
-		//show red LEDS
-		reflex::msp430x::Port8()->OUT = ~(0x02|0x04|0x20|0x40);
-
-		//show green LEDS
-//		reflex::msp430x::Port8()->OUT = ~(0x08|0x10); 
-
-		//show blue LEDS
-//		reflex::msp430x::Port8()->OUT = ~(0x01|0x80); 
-
-//		reflex::msp430x::Port8()->OUT = 0x0; // alle an
-		
 	}
 
 

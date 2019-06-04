@@ -17,6 +17,7 @@
 #include "reflex/sinks/Queue.h"
 #include "reflex/scheduling/ActivityFunctor.h"
 #include "reflex/timer/VirtualTimer.h"
+#include "LED.h"
 
 
 namespace reflex {
@@ -32,27 +33,36 @@ private:
 	/**
 	 * handler for timeout
 	 */
-	void timeout();
+	void timeoutRed();
+	void timeoutGreen();
+	void timeoutBlue();
 
 
 	/**
 	 * activity functor for timeout
 	 */
-	ActivityFunctor<Application, &Application::timeout> actTimeout;
+	ActivityFunctor<Application, &Application::timeoutRed> actTimeoutRed;
+	ActivityFunctor<Application, &Application::timeoutGreen> actTimeoutGreen;
+	ActivityFunctor<Application, &Application::timeoutBlue> actTimeoutBlue;
 
 
 	/**
 	 * timer for time events
 	 */
-	reflex::VirtualTimer timer;
+	reflex::VirtualTimer timerRed;
+	reflex::VirtualTimer timerBlue;
+	reflex::VirtualTimer timerGreen;
 
 	/**
 	 * event that is notified by timer
 	 */
-	reflex::Event event;
+	reflex::Event eventRed;
+	reflex::Event eventGreen;
+	reflex::Event eventBlue;
 
 	// our memory management
 	Pool& pool;
+	LED led;
 
 };
 }
