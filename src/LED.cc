@@ -87,5 +87,5 @@ void LED::turnOffAll(){
 	turnOff(0xFF);
 }
 void LED::turnOnAll(){
-	turnOn(0xFF);
+	turnOn(0x0);
 }
