@@ -7,3 +7,9 @@
 # vim temporary files
 *.swp
 *.swo
+
+#code composer files
+.cproject
+.project
+.settings/
+
