@@ -83,6 +83,12 @@
 #include "reflex/wdt/WDT_A.h"
 #include "reflex/driverConfiguration/WDT_AConfiguration.h"
 
+#include "reflex/rf/RADIO.h"
+
+
+// SOLUTION
+
+
 namespace reflex {
 
 /**Define different powergroups for an application. To use the available groups provided by the powermanager are highly 
@@ -103,6 +109,7 @@ public:
 	NodeConfiguration() 
 		: System()
 		, pool(0) //the Buffer is only used as FiFo. So stacksize is 0 @see Buffer
+		, radio(pool)
 		, application(pool)
 	{
 
@@ -117,13 +124,32 @@ public:
 
 		timer.setGroups(DEFAULT); // put system timer in default group
 		powerManager.enableGroup(DEFAULT); // this enables all registered entities in DEFAULT group (starts system timer)
+		radio.setGroups(DEFAULT);
 
+		//setting up the radio configuration
+		RadioConfiguration cfg;
+		cfg.setCCA(true);
+		cfg.setLogicalChannel(3);
+		cfg.setSendingTOS(false);
+		cfg.setSignalAttenuation(0);
+		cfg.setWhitening(false);
+		cfg.setTransmissionTime(150);
+		cfg.setContinuousTransmission(false);
+		cfg.setAccessPointMode(false);
+		cfg.performConfiguration(radio.get_in_confData());
 
+	    	//if data are ready to send, then the radio must notified
+		application.connect_out_sendDataToRadio(radio.get_in_input());
+		radio.connect_out_data(application.get_dataFromRadio());
+		
 	}
 
 
 	PoolManager poolManager;
 	SizedPool<IOBufferSize,NrOfStdOutBuffers> pool; ///< a pool of bufferobject with static size
+
+	// low-level driver for radio communcation 868MHz
+	FeuerWhere::RADIO radio;
 
 	Application application;
 
@@ -132,6 +158,7 @@ public:
 	 */
 	mcu::WDT_A watchdog;
 	
+
 };
 
 

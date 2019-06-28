@@ -9,7 +9,7 @@
 CC_SOURCES_APPLICATION += \
 	src/Application.cc \
 	src/main.cc \
-	src/LED.cc \
+	src/LED.cc
 
 CC_SOURCES_LIB += \
 	memory/FreeList.cc \

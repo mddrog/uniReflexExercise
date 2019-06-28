@@ -1,44 +1,81 @@
 #include "Application.h"
-
 #include "NodeConfiguration.h"
 
 using namespace reflex;
 
 Application::Application(Pool& pool) :
-	  actTimeoutRed(*this)
-	, actTimeoutGreen(*this)
-	, actTimeoutBlue(*this)
-	, timerRed(VirtualTimer::PERIODIC)
-	, timerGreen(VirtualTimer::PERIODIC)
-	, timerBlue(VirtualTimer::PERIODIC)
-	, pool(pool)
+      actTimeout(*this)
+    , actReceivedData(*this)
+    , timer(VirtualTimer::PERIODIC)
+    , pool(pool)
+    , counter(0)
+    , state(START)
+    , sender(true)
+
 {
 
-	timerRed.set(100);
-	timerGreen.set(500);
-	timerBlue.set(1000);
-	eventRed.init(&actTimeoutRed);
-	eventGreen.init(&actTimeoutGreen);
-	eventBlue.init(&actTimeoutBlue);
-	timerRed.connect_output(&eventRed);
-	timerGreen.connect_output(&eventGreen);
-	timerBlue.connect_output(&eventBlue);
+    led.turnOnColor(LED::red, true);
+    if(sender == true){
 
-	led.turnOnAll();
+        // setup timer
+        timer.set(1000);
+        //connect event with activity
+        event.init(&actTimeout);
+        //connect timer with event
+        timer.connect_output(&event);
+    }else{
+        dataFromRadio.init(&actReceivedData);
+    }
+
+
 
 }
 
-void Application::timeoutRed()
-{
-	led.toggleColor(LED::red);
+void Application::receivedData(){
+    Buffer *buf = (Buffer*)dataFromRadio.get();
+    uint8 number;
+    buf->read(number);
+    led.toggleAll();
+    led.toggleAll();
+    led.displayNumber(number);
+
+
 }
 
-void Application::timeoutGreen()
+
+void Application::timeout()
 {
-	led.toggleColor(LED::green);
+
+    switch(++counter) {
+
+    case (START - 5):
+        counter = MID;
+        break;
+
+
+    case (MID - 5):
+        counter = END;
+        break;
+
+
+    case (END - 5):
+        counter = START;
+        break;
+
+
+    default:
+        // do nothing
+        break;
+    }
+
+
+    led.toggleAll();
+    led.toggleAll();
+    // invoke internal memory management
+    Buffer *buf = new(&getApplication().pool) Buffer(&getApplication().pool);
+    if(0 != buf) {
+        buf->write(counter);
+        out_sendToRadio->assign(buf);
+    }
 }
 
-void Application::timeoutBlue()
-{
-	led.toggleColor(LED::blue);
-}
