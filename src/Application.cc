@@ -10,11 +10,11 @@ Application::Application(Pool& pool) :
     , pool(pool)
     , counter(0)
     , state(START)
-    , sender(true)
+    , sender(false)
 
 {
 
-    led.turnOnColor(LED::red, true);
+    led.turnOnColor(LED::red,true);
     if(sender == true){
 
         // setup timer
@@ -35,8 +35,7 @@ void Application::receivedData(){
     Buffer *buf = (Buffer*)dataFromRadio.get();
     uint8 number;
     buf->read(number);
-    led.toggleAll();
-    led.toggleAll();
+//    led.toggleAll();
     led.displayNumber(number);
 
 
@@ -69,7 +68,6 @@ void Application::timeout()
     }
 
 
-    led.toggleAll();
     led.toggleAll();
     // invoke internal memory management
     Buffer *buf = new(&getApplication().pool) Buffer(&getApplication().pool);

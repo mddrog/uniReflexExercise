@@ -118,12 +118,11 @@ public:
 		WDT_AConfiguration cfgWDT;
 		cfgWDT.setClockSource(mcu::wdt_a::ACLK); // 32kHz
 		cfgWDT.setIntervall(mcu::wdt_a::Ivl512k);
-		cfgWDT.setTimerMode(false);
+		cfgWDT.setTimerMode(true);
 		cfgWDT.start();
 		cfgWDT.performConfiguration(watchdog.get_in_confData());
 
 		timer.setGroups(DEFAULT); // put system timer in default group
-		powerManager.enableGroup(DEFAULT); // this enables all registered entities in DEFAULT group (starts system timer)
 		radio.setGroups(DEFAULT);
 
 		//setting up the radio configuration
@@ -137,6 +136,7 @@ public:
 		cfg.setContinuousTransmission(false);
 		cfg.setAccessPointMode(false);
 		cfg.performConfiguration(radio.get_in_confData());
+        powerManager.enableGroup(DEFAULT); // this enables all registered entities in DEFAULT group (starts system timer)
 
 	    	//if data are ready to send, then the radio must notified
 		application.connect_out_sendDataToRadio(radio.get_in_input());
