@@ -67,6 +67,8 @@ private:
      * activity functor for timeout
      */
     ActivityFunctor<Application, &Application::timeout> actTimeout;
+    ActivityFunctor<LED, &LED::turnOffAll> actTurnOff;
+
 
     ActivityFunctor<Application, &Application::receivedData> actReceivedData;
 
@@ -76,12 +78,15 @@ private:
      * timer for time events
      */
     reflex::VirtualTimer timer;
+    reflex::VirtualTimer turnOffTimer;
 
 
     /**
      * event that is notified by timer
      */
     reflex::Event event;
+    reflex::Event turnOffEvent;
+
 
 
     // our memory management
@@ -105,6 +110,7 @@ private:
 
     LED led;
 
+    void sendData(uint8 number);
 };
 }
 

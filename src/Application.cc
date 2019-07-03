@@ -6,16 +6,15 @@ using namespace reflex;
 Application::Application(Pool& pool) :
       actTimeout(*this)
     , actReceivedData(*this)
-    , timer(VirtualTimer::PERIODIC)
+    , actTurnOff(led)
+    , timer(VirtualTimer::ONESHOT)
+    , turnOffTimer(VirtualTimer::ONESHOT)
     , pool(pool)
     , counter(0)
-    , state(START)
-    , sender(false)
 
 {
 
     led.turnOnColor(LED::red, true);
-    if(sender == true){
 
 //        led.turnOnLED(1, true);
         // setup timer
@@ -24,9 +23,11 @@ Application::Application(Pool& pool) :
         event.init(&actTimeout);
         //connect timer with event
         timer.connect_output(&event);
-    }else{
+
+        turnOffEvent.init(&actTurnOff);
+        turnOffTimer.connect_output(&turnOffEvent);
+
         dataFromRadio.init(&actReceivedData);
-    }
 
 
 
@@ -34,41 +35,17 @@ Application::Application(Pool& pool) :
 
 void Application::receivedData(){
     Buffer *buf = (Buffer*)dataFromRadio.get();
-    uint8 number;
-    buf->read(number);
+    buf->read(counter);
     buf->downRef();
-//    led.toggleAll();
-    led.displayNumber(number);
+    led.displayNumber(counter);
 
+    timer.set(2000);
+    turnOffTimer.set(500);
 
 }
 
-
 void Application::timeout()
 {
-
-
-//    switch(++counter) {
-//
-//    case (START - 5):
-//        counter = MID;
-//        break;
-//
-//
-//    case (MID - 5):
-//        counter = END;
-//        break;
-//
-//
-//    case (END - 5):
-//        counter = START;
-//        break;
-//
-//
-//    default:
-//        // do nothing
-//        break;
-//    }
 
     counter++;
 
