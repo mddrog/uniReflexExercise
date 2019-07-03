@@ -111,6 +111,8 @@ public:
 		, pool(0) //the Buffer is only used as FiFo. So stacksize is 0 @see Buffer
 		, radio(pool)
 		, application(pool)
+        , actNotifyWdt(watchdog)
+        , notifyWdtTimer(VirtualTimer::PERIODIC)
 	{
 
 		// connect output of output channel
@@ -118,14 +120,19 @@ public:
 		WDT_AConfiguration cfgWDT;
 		cfgWDT.setClockSource(mcu::wdt_a::ACLK); // 32kHz
 		cfgWDT.setIntervall(mcu::wdt_a::Ivl512k);
-		cfgWDT.setTimerMode(true);
+		cfgWDT.setTimerMode(false);
 		cfgWDT.start();
 		cfgWDT.performConfiguration(watchdog.get_in_confData());
 
+        notifyWdtTimer.set(7000);
+        notifyWdtEvent.init(&actNotifyWdt);
+        notifyWdtTimer.connect_output(&notifyWdtEvent);
+
+
 		timer.setGroups(DEFAULT); // put system timer in default group
 		radio.setGroups(DEFAULT);
-
-		//setting up the radio configuration
+//
+//		//setting up the radio configuration
 		RadioConfiguration cfg;
 		cfg.setCCA(true);
 		cfg.setLogicalChannel(3);
@@ -159,6 +166,21 @@ public:
 	mcu::WDT_A watchdog;
 	
 
+    /**
+     * activity functor for timeout
+     */
+    ActivityFunctor<mcu::WDT_A, &mcu::WDT_A::notify> actNotifyWdt;
+
+    /**
+     * timer for time events
+     */
+    reflex::VirtualTimer notifyWdtTimer;
+
+
+    /**
+     * event that is notified by timer
+     */
+    reflex::Event notifyWdtEvent;
 };
 
 
