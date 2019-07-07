@@ -12,4 +12,5 @@
 .cproject
 .project
 .settings/
-
+/platform/FeuerWhere/bin/Dependencies.mk
+/platform/FeuerWhere/bin/error.txt
