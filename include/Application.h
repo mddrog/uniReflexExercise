@@ -26,11 +26,7 @@ class Application {
 
 public:
 
-
-
-
     Application(Pool& pool);
-
 
     /**
      *
@@ -54,9 +50,6 @@ private:
     Queue<Buffer*> dataFromRadio;
 //
     void receivedData();
-//
-    bool sender;
-
     /**
      * handler for timeout
      */
@@ -101,12 +94,6 @@ private:
     // indicator for red
     uint8 counter;
 
-    // small control logic for modifing data to be transmittes
-    enum state {
-        START = 10,
-        MID = 127,
-        END = 192
-    } state;
 
     LED led;
 
