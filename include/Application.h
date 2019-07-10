@@ -18,11 +18,14 @@
 #include "reflex/scheduling/ActivityFunctor.h"
 #include "reflex/timer/VirtualTimer.h"
 #include "LED.h"
+#include "message.h"
+#include "Random.h"
 
 
 namespace reflex {
 
 class Application {
+
 
 public:
 
@@ -54,6 +57,10 @@ private:
      * handler for timeout
      */
     void timeout();
+    void send();
+    void setId();
+    void prepareForSend(Message message);
+    void startRound();
 
 
     /**
@@ -61,6 +68,9 @@ private:
      */
     ActivityFunctor<Application, &Application::timeout> actTimeout;
     ActivityFunctor<LED, &LED::turnOffAll> actTurnOff;
+    ActivityFunctor<Application, &Application::send> actSend;
+    ActivityFunctor<Application, &Application::setId> actId;
+    ActivityFunctor<Application, &Application::startRound> actStart;
 
 
     ActivityFunctor<Application, &Application::receivedData> actReceivedData;
@@ -70,15 +80,19 @@ private:
     /**
      * timer for time events
      */
+    reflex::VirtualTimer startTimer;
     reflex::VirtualTimer timer;
-    reflex::VirtualTimer turnOffTimer;
+    reflex::VirtualTimer waitForAnswerTimer;
 
 
     /**
      * event that is notified by timer
      */
-    reflex::Event event;
+    reflex::Event timerEvent;
+    reflex::Event startEvent;
     reflex::Event turnOffEvent;
+    reflex::Event noAnswerEvent;
+    reflex::Event timeToWaitEnd;
 
 
 
@@ -98,6 +112,14 @@ private:
     LED led;
 
     void sendData(uint8 number);
+
+    Random randomGenerator;
+
+    Time timeToWait;
+    uint8 id;
+    reflex::Queue<reflex::Buffer*> *messagesToSend;
+    uint8 ids[10];
+
 };
 }
 
